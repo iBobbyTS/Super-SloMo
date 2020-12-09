@@ -179,9 +179,9 @@ for epoch in range(dict1['epoch'] + 1, args.epochs):
     cLoss.append([])
     valLoss.append([])
     valPSNR.append([])
-    iLoss = 0
     continue_epoch = 1
     while continue_epoch:
+        iLoss = 0
         for trainIndex, (trainData, trainFrameIndex) in enumerate(trainloader):
             # Getting the input and the target from the training set
             frame0, frameT, frame1 = trainData
