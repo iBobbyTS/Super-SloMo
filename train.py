@@ -162,14 +162,13 @@ if args.train_continue:
     dict1 = torch.load(args.checkpoint)
     ArbTimeFlowIntrp.load_state_dict(dict1['state_dictAT'])
     flowComp.load_state_dict(dict1['state_dictFC'])
-    cLoss   = dict1['loss']
-    valLoss = dict1['valLoss']
-    valPSNR = dict1['valPSNR']
-    continue_loss = [cLoss, valLoss, valPSNR]
 else:
     dict1 = {'loss': [], 'valLoss': [], 'valPSNR': [], 'epoch': -1}
-    continue_loss = [1e100, 1e100, -1e100]
+cLoss   = dict1['loss']
+valLoss = dict1['valLoss']
+valPSNR = dict1['valPSNR']
 
+continue_loss = [cLoss[-1], valLoss[-1], valPSNR[-1]] if args.train_continue else [1e100, 1e100, -1e100]
 
 # Training
 start = time.time()
@@ -276,7 +275,7 @@ for epoch in range(dict1['epoch'] + 1, args.epochs):
             continue_epoch += 1
         continue_loss = [iLoss/len(trainloader), vLoss, psnr]
 
-        print_content = f'\rTraining again epoch {epoch}; ' if continue_epoch else ''
+        print_content = f'\rTraining again epoch {epoch}; ' if continue_epoch else '\r'
         print_content = print_content + "Loss: %0.6f; TrainExecTime: %0.1f; ValLoss:%0.6f; ValPSNR: %0.4f; ValEvalTime: %0.2f; LearningRate: %.0e" % (iLoss / len(trainloader), end - start, vLoss, psnr, endVal - end, get_lr(optimizer))
         print(print_content, flush=True)
         start = time.time()
@@ -284,15 +283,15 @@ for epoch in range(dict1['epoch'] + 1, args.epochs):
     scheduler.step()
     # Create checkpoint after every `args.checkpoint_epoch` epochs
     torch.save({
-            'Detail':"End to end Super SloMo.",
-            'epoch':epoch,
-            'timestamp':datetime.datetime.now(),
-            'trainBatchSz':args.train_batch_size,
-            'validationBatchSz':args.validation_batch_size,
-            'learningRate':get_lr(optimizer),
-            'loss':cLoss,
-            'valLoss':valLoss,
-            'valPSNR':valPSNR,
+            'Detail': "End to end Super SloMo.",
+            'epoch': epoch,
+            'timestamp': datetime.datetime.now(),
+            'trainBatchSz': args.train_batch_size,
+            'validationBatchSz': args.validation_batch_size,
+            'learningRate': get_lr(optimizer),
+            'loss': cLoss,
+            'valLoss': valLoss,
+            'valPSNR': valPSNR,
             'state_dictFC': flowComp.state_dict(),
             'state_dictAT': ArbTimeFlowIntrp.state_dict(),
             }, f'{args.checkpoint_dir}/SuperSloMo{str(epoch).zfill(len(str(args.epochs)))}.pth')
