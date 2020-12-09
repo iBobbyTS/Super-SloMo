@@ -26,11 +26,11 @@ Install:
 
 For GPU, run
 ```bash
-conda install pytorch=0.4.1 cuda92 torchvision==0.2.0 -c pytorch
+conda install pytorch torchvision cudatoolkit=10.2 -c pytorch
 ```
 For CPU, run
 ```bash
-conda install pytorch-cpu=0.4.1 torchvision-cpu==0.2.0 cpuonly -c pytorch
+conda install pytorch torchvision cpuonly -c pytorch
 ```
 * [TensorboardX](https://github.com/lanpa/tensorboardX) for training visualization
 * [tensorflow](https://www.tensorflow.org/install/) for tensorboard
