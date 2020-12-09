@@ -168,7 +168,7 @@ cLoss   = dict1['loss']
 valLoss = dict1['valLoss']
 valPSNR = dict1['valPSNR']
 
-continue_loss = [cLoss[-1], valLoss[-1], valPSNR[-1]] if args.train_continue else [1e100, 1e100, -1e100]
+continue_loss = [cLoss[-1][0], valLoss[-1][0], valPSNR[-1][0]] if args.train_continue else [1e100, 1e100, -1e100]
 
 # Training
 start = time.time()
