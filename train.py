@@ -276,7 +276,7 @@ for epoch in range(dict1['epoch'] + 1, args.epochs):
         continue_loss = [iLoss/len(trainloader), vLoss, psnr]
 
         print_content = f'\rTraining again epoch {epoch}; ' if continue_epoch else '\r'
-        print_content = print_content + "Loss: %0.6f; TrainExecTime: %0.1f; ValLoss:%0.6f; ValPSNR: %0.4f; ValEvalTime: %0.2f; LearningRate: %.0e" % (iLoss / len(trainloader), end - start, vLoss, psnr, endVal - end, get_lr(optimizer))
+        print_content = print_content + "Loss: %0.6f; TrainExecTime: %0.2f; ValLoss:%0.6f; ValPSNR: %0.6f; ValEvalTime: %0.2f; LearningRate: %.0e" % (iLoss / len(trainloader), end - start, vLoss, psnr, endVal - end, get_lr(optimizer))
         print(print_content, flush=True)
         start = time.time()
     # Increment scheduler count
